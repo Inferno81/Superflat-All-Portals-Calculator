@@ -1,0 +1,33 @@
+plugins {
+    id 'java'
+}
+
+repositories {
+    mavenCentral()
+    google()
+    maven { url 'https://jitpack.io' }
+}
+
+dependencies {
+    implementation 'com.formdev:flatlaf:3.4.1'
+    implementation 'com.google.firebase:firebase-admin:9.3.0'
+    implementation 'org.slf4j:slf4j-api:2.0.7'
+    implementation 'ch.qos.logback:logback-classic:1.4.12'
+    implementation 'com.github.kwhat:jnativehook:2.2.2'
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+}
+
+jar {
+    exclude('META-INF/*.SF')
+    exclude('META-INF/*.DSA')
+    exclude('META-INF/*.RSA')
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    manifest {
+        attributes 'Main-Class': 'com.sophie.SuperflatAllPortalsCalculator'
+    }
+    archiveBaseName = "${rootProject.name}"
+    from { configurations.compileClasspath.collect { it.isDirectory() ? it : zipTree(it) } }
+}
